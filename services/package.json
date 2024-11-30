@@ -1,0 +1,19 @@
+{
+    "dependencies": {
+      "@sap/xsenv": "^5",
+      "@sap/async-xsjs": "2.0.4"
+    },
+    "description": "my description",
+    "devDependencies": {},
+    "files": [],
+    "main": "server.js",
+    "name": "services",
+    "scripts": {
+      "start": "node --experimental-vm-modules server.js"
+    },
+    "engines": {
+      "node": "20.x"
+    },
+    "version": "1.0.0"
+    
+}

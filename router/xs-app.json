@@ -1,0 +1,19 @@
+{
+    "welcomeFile": "./services/session.xsjs",
+    "logout": {
+      "logoutEndpoint": "/logout",
+      "logoutPage": "/logout.html"
+    },
+    "responseHeaders": [],
+    "routes": [
+      {
+        "source": "^/services/(.*)$",
+        "target": "$1",
+        "destination": "xsjs-backend",
+        "authenticationType": "xsuaa",
+        "scope": "$XSAPPNAME.user",
+        "csrfProtection": false
+      }
+    ],
+    "errorPage": [] 
+}  

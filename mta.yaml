@@ -1,0 +1,54 @@
+_schema-version: "3.1"
+ID: sample
+description: sample
+version: 1.0.0
+parameters:
+  enable-parallel-deployments: true
+modules:
+- name: sample
+  type: approuter.nodejs
+  path: router
+  requires:
+  - name: sample-auth
+  - name: xsjs_api
+    group: destinations
+    properties:
+      name: xsjs-backend
+      url: ~{url}
+      forwardAuthToken: true
+  parameters:
+    keep-existing-routes: true
+    memory: 256M
+- name: sample-xsjs
+  type: nodejs
+  path: services
+  requires:
+  - name: sample-auth
+  - name: sample-hdi-hdb
+  provides:
+  - name: xsjs_api
+    properties:
+      url: ${default-url}
+  parameters:
+    memory: 256M
+resources:
+- name: sample-auth
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      oauth2-configuration:
+        redirect-uris:
+        - https://*.cfapps.eu20-001.hana.ondemand.com/**
+      tenant-mode: dedicated
+      xsappname: sample-${space}
+    path: ./xs-security.json
+    service: xsuaa
+    service-plan: application
+- name: sample-hdi-hdb
+  type: com.sap.xs.hdi-container
+  parameters:
+    config:
+      database_id: abe9bb58-605d-4abc-875b-66d572325e2c
+      schema: sample_${space}
+  properties:
+    hdi-container-name: ${service-name}
